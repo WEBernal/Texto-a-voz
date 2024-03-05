@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
     message.volume = volumeInput.value;
 
     // Agregar la clase ".animated" para activar la animación al hacer clic en el botón de hablar
+    startButton.classList.add("animated");
     soundwaveImage.classList.add("animated");
 
-    // Cuando la locución haya terminado, quitar la clase ".animated" para detener la animación
+    // Cuando la locución haya terminado, quitar la clase ".animated" para detener la animación del botón de hablar y de la imagen
     message.onend = () => {
+      startButton.classList.remove("animated");
       soundwaveImage.classList.remove("animated");
     };
 
@@ -37,5 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   cancelButton.addEventListener("click", () => {
     speechSynthesis.cancel();
+    startButton.classList.remove("animated"); // Quitar la clase de animación del botón de hablar
+    soundwaveImage.classList.remove("animated"); // Quitar la clase de animación de la imagen
   });
 });
+
