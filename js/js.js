@@ -1,27 +1,41 @@
-const voiceOptions = document.querySelector(".voice");
-const startButton = document.querySelector(".start");
-const cancelButton = document.querySelector(".cancel");
-const pitchInput = document.querySelector(".pitch");
-const rateInput = document.querySelector(".rate");
-const volumeInput = document.querySelector(".volume");
+document.addEventListener("DOMContentLoaded", function() {
+  const voiceOptions = document.querySelector(".voice");
+  const startButton = document.querySelector(".start");
+  const cancelButton = document.querySelector(".cancel");
+  const pitchInput = document.querySelector(".pitch");
+  const rateInput = document.querySelector(".rate");
+  const volumeInput = document.querySelector(".volume");
+  const soundwaveImage = document.querySelector("#animated-image");
 
-speechSynthesis.addEventListener("voiceschanged", () => {
-  const voices = speechSynthesis.getVoices();
-  const options = voices.map((voice, index) => {
-    return `<option value="${index}">${voice.name}</option>`;
+  speechSynthesis.addEventListener("voiceschanged", () => {
+    const voices = speechSynthesis.getVoices();
+    const options = voices.map((voice, index) => {
+      return `<option value="${index}">${voice.name}</option>`;
+    });
+    voiceOptions.innerHTML = options.join("");
   });
-  voiceOptions.innerHTML = options.join("");
-});
 
-startButton.addEventListener("click", () => {
-  const text = document.querySelector(".text").value;
-  const message = new SpeechSynthesisUtterance(text);
-  const index = voiceOptions.selectedIndex;
-  message.voice = speechSynthesis.getVoices()[index];
-  message.pitch = pitchInput.value;
-  message.rate = rateInput.value;
-  message.volume = volumeInput.value;
-  speechSynthesis.speak(message);
-});
+  startButton.addEventListener("click", () => {
+    const text = document.querySelector(".text").value;
+    const message = new SpeechSynthesisUtterance(text);
+    const index = voiceOptions.selectedIndex;
+    message.voice = speechSynthesis.getVoices()[index];
+    message.pitch = pitchInput.value;
+    message.rate = rateInput.value;
+    message.volume = volumeInput.value;
 
-cancelButton.addEventListener("click", () => speechSynthesis.cancel());
+    // Agregar la clase ".animated" para activar la animación al hacer clic en el botón de hablar
+    soundwaveImage.classList.add("animated");
+
+    // Cuando la locución haya terminado, quitar la clase ".animated" para detener la animación
+    message.onend = () => {
+      soundwaveImage.classList.remove("animated");
+    };
+
+    speechSynthesis.speak(message);
+  });
+
+  cancelButton.addEventListener("click", () => {
+    speechSynthesis.cancel();
+  });
+});

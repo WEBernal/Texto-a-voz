@@ -1,6 +1,43 @@
 * {
-   box-sizing: content-box;
+   box-sizing: border-box;
   }
 
+ body {
+   background-color: rgba(245, 245, 245, 1);
+
+  }
+
+  @keyframes soundAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .sound-animation {
+    animation: soundAnimation 0.3s infinite;
+  }
+
+  @keyframes pulseAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .animated {
+    animation: pulseAnimation 0.5s infinite;
+  }
+  
 
   
